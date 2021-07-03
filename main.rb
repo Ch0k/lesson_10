@@ -1,5 +1,6 @@
 require_relative 'player'
 require_relative 'card'
+require_relative 'diller'
 
 
 class BlackJack
@@ -8,17 +9,18 @@ class BlackJack
     puts 'Введите имя игрока'
     x = gets.chomp.to_s
     create_player(x)
+    create_diller
     puts 'Игрок получает 2 карты'
     send_cards
     puts 'Диллер получает 2 карты'
-    send_cards_to_d
-
+    send_cards_to_diller
     # Выводим количество очков игрока
-    #puts player_points
+    player_points
     # Отправляем деньги пользователя в банк
-
-    #send_player_money_to_bank
-            # Отправляем деньги дилера в банк
+    send_player_money_to_bank
+    # Отправляем деньги дилера в банк
+    send_diller_money_to_bank
+    
 
     #send_player_money_to_bank
     #puts 'propustit'
@@ -34,13 +36,30 @@ class BlackJack
     @player1 = Player.new('name')
   end
 
+  def create_diller
+    @diller1 = Diller.new
+  end
+
   def send_cards
     @player1.receive_cards(@cards.sample)
     @player1.receive_cards(@cards.sample)
   end
 
-  def send_cards_to_d
-    
+  def send_cards_to_diller
+    @diller1.receive_cards(@cards.sample)
+    @diller1.receive_cards(@cards.sample)
+  end
+
+  def player_points
+    @player1.points
+  end
+
+  def send_player_money_to_bank
+    @player1.send_money
+  end
+
+  def send_diller_money_to_bank
+    @player1.send_money
   end
 
   def seed
