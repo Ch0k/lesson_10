@@ -1,6 +1,9 @@
-# Class Dillers 
+# frozen_string_literal: true
+
+# Class Dillers
 class Diller
   attr_accessor :points, :money
+
   def initialize
     @cards = []
     @points = 0
@@ -16,16 +19,13 @@ class Diller
     @money -= 10
   end
 
-  def cards
-    @cards
+  attr_reader :cards
+
+  def add_money(number)
+    @money += number
   end
 
-  def add_money(x)
-    @money += x
-  end
-  
   def empty_cards
     @cards = []
   end
-
 end

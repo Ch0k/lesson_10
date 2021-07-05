@@ -1,6 +1,9 @@
-class Player
+# frozen_string_literal: true
 
+# Class for Player
+class Player
   attr_accessor :points, :money
+
   def initialize(name)
     @name = name
     @cards = []
@@ -10,31 +13,26 @@ class Player
 
   def receive_cards(card)
     @cards << card
-    if card.name !~ /[T]/ 
-      @points += card.point
-    else 
-      if (21 - @points) > 10  
-        @points += 11
-      else 
-        @points += 1
-      end
-    end
+    @points += if card.name !~ /T/
+                 card.point
+               elsif (21 - @points) > 10
+                 11
+               else
+                 1
+               end
   end
 
-  def cards
-    @cards
-  end
+  attr_reader :cards
 
   def send_money
     @money -= 10
   end
 
-  def add_money(x)
-    @money += x
+  def add_money(number)
+    @money += number
   end
-  
+
   def empty_cards
     @cards = []
   end
-
 end

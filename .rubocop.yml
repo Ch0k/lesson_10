@@ -1,0 +1,6 @@
+Metrics/AbcSize:
+  Max: 50
+Metrics/MethodLength:
+  Max: 25
+Style/ClassVars:
+  Enable: false
