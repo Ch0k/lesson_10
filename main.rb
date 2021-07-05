@@ -139,30 +139,38 @@ class BlackJack
     card_monitor_diller
     if (@player1.points > @diller1.points) && (@player1.points <= 21)
       puts "Player win"
-      @player1.add_money
+      @player1.add_money(20)
       @player1.points = 0
     elsif (@player1.points > @diller1.points) && (@player1.points > 21)
       puts "Diller win"
-      @diller1.add_money
+      @diller1.add_money(20)
     elsif (@player1.points < @diller1.points) && (@player1.points < 21)
       puts "Diller win"
-      @diller1.add_money
+      @diller1.add_money(20)
     else (@player1.points == @diller1.points) 
       puts "ravno"
+      @diller1.add_money(10)
+      @player1.add_money(10)
     end
     @player1.points = 0
     @diller1.points = 0
     money_monitor_player
     money_monitor_diller
-    puts "Сыграем еще?"
-    puts "1 - Да"
-    puts "2 - Нет"
-    y = gets.chomp.to_i
-    case y
-      when 1
-        game 
-      when 2
-        puts "Bye"
+    @player1.empty_cards
+    @diller1.empty_cards
+    if @diller1.money = 0 || @player1.money = 0 
+      puts "Game over"
+    else
+      puts "Сыграем еще?"
+      puts "1 - Да"
+      puts "2 - Нет"
+      y = gets.chomp.to_i
+      case y
+        when 1
+          game 
+        when 2
+          puts "Bye"
+      end
     end
   end
 

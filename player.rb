@@ -8,15 +8,17 @@ class Player
     @money = 100
   end
 
-  
-
   def receive_cards(card)
     @cards << card
-    @points += card.point
-  end
-
-  def self.all
-    @@all[0]
+    if card.name !~ /[T]/ 
+      @points += card.point
+    else 
+      if (21 - @points) > 10  
+        @points += 11
+      else 
+        @points += 1
+      end
+    end
   end
 
   def cards
@@ -27,8 +29,12 @@ class Player
     @money -= 10
   end
 
-  def add_money
-    @money += 20
+  def add_money(x)
+    @money += x
   end
   
+  def empty_cards
+    @cards = []
+  end
+
 end

@@ -20,8 +20,12 @@ class Diller
     @cards
   end
 
-  def add_money
-    @money += 20
+  def add_money(x)
+    @money += x
   end
   
+  def empty_cards
+    @cards = []
+  end
+
 end
