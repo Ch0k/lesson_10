@@ -4,4 +4,8 @@ class Card
     @name = name
     @point = point
   end
+
+  def name
+    @name
+  end
 end

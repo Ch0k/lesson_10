@@ -1,7 +1,7 @@
 # Class Dillers 
 class Diller
-
-  def def initialize
+  attr_accessor :points, :money
+  def initialize
     @cards = []
     @points = 0
     @money = 100
@@ -12,15 +12,16 @@ class Diller
     @points += card.point
   end
 
-  def distribution
-  end
-
-  def receive_cards(card)
-    @cards << card
-  end
-
   def send_money
     @money -= 10
   end
 
+  def cards
+    @cards
+  end
+
+  def add_money
+    @money += 20
+  end
+  
 end

@@ -10,6 +10,10 @@ class BlackJack
     x = gets.chomp.to_s
     create_player(x)
     create_diller
+    game
+  end
+
+  def game
     puts 'Игрок получает 2 карты'
     send_cards
     puts 'Диллер получает 2 карты'
@@ -20,16 +24,9 @@ class BlackJack
     send_player_money_to_bank
     # Отправляем деньги дилера в банк
     send_diller_money_to_bank
-    
-
-    #send_player_money_to_bank
-    #puts 'propustit'
-    #puts 'add_card'
-    #puts 'open_card'
-    #y = get.chomp.to_s
-    #case 
-    #propustit_hod_diller
-    #add_card_to_diller
+    player_points
+    card_monitor
+    hod_igroka
   end
 
   def create_player(name)
@@ -45,21 +42,128 @@ class BlackJack
     @player1.receive_cards(@cards.sample)
   end
 
+  def add_card
+    @player1.receive_cards(@cards.sample)
+  end
+
   def send_cards_to_diller
     @diller1.receive_cards(@cards.sample)
     @diller1.receive_cards(@cards.sample)
   end
 
   def player_points
-    @player1.points
+    puts "Сумма очков игрока #{@player1.points}"
   end
+
+  def diller_points
+    puts "Сумма очков диллера #{@diller1.points}"
+  end
+
+  def card_monitor
+    puts "Карты игрока"
+    @player1.cards.each { |cards| puts "#{cards.name}" }
+  end
+
+  def card_monitor_diller
+    puts "Карты диллера"
+    @diller1.cards.each { |cards| puts "#{cards.name}" }
+  end
+
+  def money_monitor_player
+    puts "Банк игрока #{@player1.money}"
+  end
+
+  def money_monitor_diller
+    puts "Банк диллера #{@diller1.money}"
+  end
+
 
   def send_player_money_to_bank
     @player1.send_money
   end
 
   def send_diller_money_to_bank
-    @player1.send_money
+    @diller1.send_money
+  end
+
+  def add_card_to_diller
+    @diller1.receive_cards(@cards.sample)
+  end
+
+  def hod_igroka
+    puts '1-propustit'
+    puts '2-add_card'
+    puts '3-open_card'
+    y = gets.chomp.to_i
+    case y
+      when 1
+        if @diller1.points < 17 
+          add_card_to_diller
+          hod_igroka2
+        else
+          hod_igroka2
+        end
+      when 2
+        add_card
+        player_points
+        card_monitor
+        if @diller1.points < 17 
+          add_card_to_diller
+          open_card
+        else
+          open_card
+        end
+      when 3
+        open_card
+    end
+  
+  end
+
+  def hod_igroka2
+    puts '1-add_card'
+    puts '2-open_card'
+    y = gets.chomp.to_i
+    case y
+      when 1
+        add_card
+        open_card
+      when 2
+        open_card
+    end  
+  end
+
+  def open_card
+    player_points
+    card_monitor
+    diller_points
+    card_monitor_diller
+    if (@player1.points > @diller1.points) && (@player1.points <= 21)
+      puts "Player win"
+      @player1.add_money
+      @player1.points = 0
+    elsif (@player1.points > @diller1.points) && (@player1.points > 21)
+      puts "Diller win"
+      @diller1.add_money
+    elsif (@player1.points < @diller1.points) && (@player1.points < 21)
+      puts "Diller win"
+      @diller1.add_money
+    else (@player1.points == @diller1.points) 
+      puts "ravno"
+    end
+    @player1.points = 0
+    @diller1.points = 0
+    money_monitor_player
+    money_monitor_diller
+    puts "Сыграем еще?"
+    puts "1 - Да"
+    puts "2 - Нет"
+    y = gets.chomp.to_i
+    case y
+      when 1
+        game 
+      when 2
+        puts "Bye"
+    end
   end
 
   def seed
@@ -113,10 +217,7 @@ class BlackJack
     #@sample_cards << @cards.sample
     #@sample_cards << @cards.sample
     #print @cards.sample
-    player1.points
-    player1.receive_cards(@cards.sample)
-    player1.receive_cards(@cards.sample)
-    player1.points
+
   end
 end
 

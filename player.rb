@@ -1,14 +1,14 @@
 class Player
 
-  attr_reader :points, :money
-  @@all = []
+  attr_accessor :points, :money
   def initialize(name)
     @name = name
     @cards = []
     @points = 0
     @money = 100
-    @@all << self
   end
+
+  
 
   def receive_cards(card)
     @cards << card
@@ -27,8 +27,8 @@ class Player
     @money -= 10
   end
 
-  def say_stop
-    @cards.each{ |cart| @points += cart.point  }
+  def add_money
+    @money += 20
   end
-
+  
 end
